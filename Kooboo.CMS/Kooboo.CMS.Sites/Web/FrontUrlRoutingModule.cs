@@ -27,6 +27,12 @@ namespace Kooboo.CMS.Sites.Web
         void application_PostResolveRequestCache(object sender, EventArgs e)
         {
             HttpContextBase context = new FrontHttpContextWrapper(((HttpApplication)sender).Context);
+            if (context.Request.HttpMethod == "OPTIONS")// allow OPTIONS call
+            {
+                context.Response.StatusCode = 200;
+                context.Response.End();
+                return;
+            }
             this.PostResolveRequestCache(context);
             //if (Site.Current != null)
             //{
